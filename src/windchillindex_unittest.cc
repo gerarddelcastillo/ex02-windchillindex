@@ -44,105 +44,108 @@
 #include "gtest/gtest.h"
 namespace {
 
-double computeWindChillIndexMaster(double temperature, double windVelocity) {
-    if (temperature > 10.0) return FLT_MIN;
+	double computeWindChillIndexMaster(double temperature, double windVelocity) {
+		if (temperature > 10.0) return FLT_MIN;
 
-    return 33.0 - ((10.0 * sqrt(windVelocity) - windVelocity) * (33.0 - temperature)) / 23.1;
-}
+		return 33.0 - ((10.0 * sqrt(windVelocity) - windVelocity) * (33.0 - temperature)) / 23.1;
+	}
 
-using edu::vcccd::vc::csv13::computeWindChillIndex;
+	using edu::vcccd::vc::csv13::computeWindChillIndex;
 
-// Tests edu::sbcc:cs140::String.
+	// Tests edu::sbcc:cs140::String.
 
-using std::istringstream;
-using std::ostringstream;
-using std::string;
+	using std::istringstream;
+	using std::ostringstream;
+	using std::string;
 
-using namespace ::testing_internal;
+	using namespace ::testing_internal;
+	
+	typedef uint64_t uint;
 
-class WindChillIndexTest : public ::testing::Test {
-protected:
-    static const uint MAX_TESTED_SCORE = 20;
-    static const uint MAX_OVERALL_SCORE = 25;
-    static uint _testScore;
+	class WindChillIndexTest : public ::testing::Test {
+	protected:
+		static const uint MAX_TESTED_SCORE = 20;
+		static const uint MAX_OVERALL_SCORE = 25;
+		static uint _testScore;
 
-protected:
-    static void TearDownTestCase() {
-        if (_testScore == MAX_TESTED_SCORE) {
-            std::cout << std::endl << "Your unit test score is "
-                      << _testScore << " out of "
-                      << MAX_TESTED_SCORE << std::endl;
-        } else {
-            std::cout << "Your unit test score is "
-                      << _testScore << " out of "
-                      << MAX_TESTED_SCORE << " ("<< (int)(_testScore - MAX_TESTED_SCORE)
-                      << ")" << std::endl;
-        }
+	protected:
+		static void TearDownTestCase() {
+			if (_testScore == MAX_TESTED_SCORE) {
+				std::cout << std::endl << "Your unit test score is "
+					<< _testScore << " out of "
+					<< MAX_TESTED_SCORE << std::endl;
+			}
+			else {
+				std::cout << "Your unit test score is "
+					<< _testScore << " out of "
+					<< MAX_TESTED_SCORE << " (" << (int)(_testScore - MAX_TESTED_SCORE)
+					<< ")" << std::endl;
+			}
 
-        std::cout << "The assignment is worth a total of " << MAX_OVERALL_SCORE
-                  << " where the remaining points" << std::endl;
-        std::cout << "comes from grading related to documentation, algorithms, and other"
-                  << std::endl;
-        std::cout << "criteria." << std::endl << std::endl;
-    }
-};
+			std::cout << "The assignment is worth a total of " << MAX_OVERALL_SCORE
+				<< " where the remaining points" << std::endl;
+			std::cout << "comes from grading related to documentation, algorithms, and other"
+				<< std::endl;
+			std::cout << "criteria." << std::endl << std::endl;
+		}
+	};
 
-uint WindChillIndexTest::_testScore = 0;
+	uint WindChillIndexTest::_testScore = 0;
 
-TEST_F(WindChillIndexTest, Basic) {
-    // This test is named "Identity", it checks that the basic identity
-    // complex number, i, has the correct values for real and imaginary
-    // parts.
+	TEST_F(WindChillIndexTest, Basic) {
+		// This test is named "Identity", it checks that the basic identity
+		// complex number, i, has the correct values for real and imaginary
+		// parts.
 
-    std::default_random_engine generator;
-    std::uniform_int_distribution<int32_t> tempDistribution(-10,10);
-    std::uniform_int_distribution<int32_t> velocityDistribution(0,100);
+		std::default_random_engine generator;
+		std::uniform_int_distribution<int32_t> tempDistribution(-10, 10);
+		std::uniform_int_distribution<int32_t> velocityDistribution(0, 100);
 
-    int32_t temperature = tempDistribution(generator);
-    int32_t velocity = velocityDistribution(generator);
+		int32_t temperature = tempDistribution(generator);
+		int32_t velocity = velocityDistribution(generator);
 
-    ASSERT_DOUBLE_EQ(computeWindChillIndexMaster(temperature, velocity),
-                     computeWindChillIndex(temperature, velocity));
+		ASSERT_DOUBLE_EQ(computeWindChillIndexMaster(temperature, velocity),
+			computeWindChillIndex(temperature, velocity));
 
-    temperature = tempDistribution(generator);
-    velocity = velocityDistribution(generator);
-    ASSERT_DOUBLE_EQ(computeWindChillIndexMaster(temperature, velocity),
-                     computeWindChillIndex(temperature, velocity));
+		temperature = tempDistribution(generator);
+		velocity = velocityDistribution(generator);
+		ASSERT_DOUBLE_EQ(computeWindChillIndexMaster(temperature, velocity),
+			computeWindChillIndex(temperature, velocity));
 
-    temperature = tempDistribution(generator);
-    velocity = velocityDistribution(generator);
-    ASSERT_DOUBLE_EQ(computeWindChillIndexMaster(temperature, velocity),
-                     computeWindChillIndex(temperature, velocity));
+		temperature = tempDistribution(generator);
+		velocity = velocityDistribution(generator);
+		ASSERT_DOUBLE_EQ(computeWindChillIndexMaster(temperature, velocity),
+			computeWindChillIndex(temperature, velocity));
 
-    _testScore += 10;
-}
+		_testScore += 10;
+	}
 
-TEST_F(WindChillIndexTest, TemperatureOutOfRange) {
-    // This test is named "Identity", it checks that the basic identity
-    // complex number, i, has the correct values for real and imaginary
-    // parts.
+	TEST_F(WindChillIndexTest, TemperatureOutOfRange) {
+		// This test is named "Identity", it checks that the basic identity
+		// complex number, i, has the correct values for real and imaginary
+		// parts.
 
-    std::default_random_engine generator;
-    std::uniform_int_distribution<int32_t> tempDistribution(11,100);
-    std::uniform_int_distribution<int32_t> velocityDistribution(0,10);
+		std::default_random_engine generator;
+		std::uniform_int_distribution<int32_t> tempDistribution(11, 100);
+		std::uniform_int_distribution<int32_t> velocityDistribution(0, 10);
 
-    int32_t temperature = tempDistribution(generator);
-    int32_t velocity = velocityDistribution(generator);
+		int32_t temperature = tempDistribution(generator);
+		int32_t velocity = velocityDistribution(generator);
 
-    ASSERT_DOUBLE_EQ(computeWindChillIndexMaster(temperature, velocity),
-                     computeWindChillIndex(temperature, velocity));
+		ASSERT_DOUBLE_EQ(computeWindChillIndexMaster(temperature, velocity),
+			computeWindChillIndex(temperature, velocity));
 
-    temperature = tempDistribution(generator);
-    velocity = velocityDistribution(generator);
-    ASSERT_DOUBLE_EQ(computeWindChillIndexMaster(temperature, velocity),
-                     computeWindChillIndex(temperature, velocity));
+		temperature = tempDistribution(generator);
+		velocity = velocityDistribution(generator);
+		ASSERT_DOUBLE_EQ(computeWindChillIndexMaster(temperature, velocity),
+			computeWindChillIndex(temperature, velocity));
 
-    temperature = tempDistribution(generator);
-    velocity = velocityDistribution(generator);
-    ASSERT_DOUBLE_EQ(computeWindChillIndexMaster(temperature, velocity),
-                     computeWindChillIndex(temperature, velocity));
+		temperature = tempDistribution(generator);
+		velocity = velocityDistribution(generator);
+		ASSERT_DOUBLE_EQ(computeWindChillIndexMaster(temperature, velocity),
+			computeWindChillIndex(temperature, velocity));
 
-    _testScore += 10;
-}
+		_testScore += 10;
+	}
 
 }
